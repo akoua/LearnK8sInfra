@@ -1,4 +1,4 @@
-# init cluster
+# Init cluster
 
 ```cd cluster/kind```
 
@@ -21,7 +21,7 @@ You must be at the root path of DebugK8s
 
 ```sudo cloud-provider-kind```
 
-# Load a image on your kind cluster
+# Load an image on your kind cluster
 ```kind load docker-image xxx/yyy:tagxx```
 
 # How to connect to the database
