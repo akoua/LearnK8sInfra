@@ -21,7 +21,7 @@ You must be at the root path of DebugK8s
 
 ```sudo cloud-provider-kind```
 
-Below instructions are optionnal
+**_Below instructions are optionnal_**
 
 ``` sudo cp /opt/homebrew/opt/docker-mac-net-connect/bin/docker-mac-net-connect /usr/local/bin```
 
