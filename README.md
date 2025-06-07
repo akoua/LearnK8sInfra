@@ -31,3 +31,9 @@ Below instructions are optionnal
 
 # Load a image on your kind cluster
 ```kind load docker-image xxx/yyy:tagxx```
+
+# How to connect to the database
+
+jdbc:postgresql://**\<StatefulSet Name\>**.**\<NameSpace\>**.svc.cluster.local:**\<Service exposed port\>**/**\<Database Name\>**
+
+**Ex:** jdbc:postgresql://postgres.test-ns.svc.cluster.local:5432/security
