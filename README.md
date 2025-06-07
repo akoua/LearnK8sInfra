@@ -30,4 +30,4 @@ Below instructions are optionnal
 ```docker-mac-net-connect```
 
 # Load a image on your kind cluster
-kind load docker-image xxx/yyy:tagxx
+```kind load docker-image xxx/yyy:tagxx```
