@@ -21,14 +21,6 @@ You must be at the root path of DebugK8s
 
 ```sudo cloud-provider-kind```
 
-**_Below instructions are optionnal_**
-
-``` sudo cp /opt/homebrew/opt/docker-mac-net-connect/bin/docker-mac-net-connect /usr/local/bin```
-
-``` sudo brew services start chipmk/tap/```
-
-```docker-mac-net-connect```
-
 # Load a image on your kind cluster
 ```kind load docker-image xxx/yyy:tagxx```
 
