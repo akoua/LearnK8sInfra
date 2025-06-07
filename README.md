@@ -19,7 +19,7 @@ You must be at the root path of DebugK8s
 
 ```source $HOME/.zshrc```
 
-```sudo cloud-provider-kind```
+```sudo cloud-provider-kind -enable-lb-port-mapping="true"```
 
 # Load an image on your kind cluster
 ```kind load docker-image xxx/yyy:tagxx```
