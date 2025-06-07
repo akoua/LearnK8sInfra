@@ -1,0 +1,8 @@
+# ansible-playbook -i prerequisites/ansible/inventory/local.yml prerequisites/ansible/playbook/test-nodes-reachable.yml
+---
+- name: Gather information from Kind nodes
+  hosts: kind_nodes
+  tasks:
+  - name: Get node hostname
+    command: hostname
+    register: hostname

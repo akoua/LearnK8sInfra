@@ -1,0 +1,11 @@
+.DS_Store
+k8s/apps
+k8s/infra
+k8s/namespace
+k8s/security
+cluster/kind/data
+cluster/kind/pvc
+prerequisites/ansible/playbook/02_istio_debug.yml
+prerequisites/ansible/playbook/03_install_basic.yml
+prerequisites/ansible/playbook/istio-values/
+prerequisites/ansible/cjson.so

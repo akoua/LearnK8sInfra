@@ -1,0 +1,31 @@
+---
+all:
+  vars:
+    ansible_connection: community.docker.docker
+    ansible_user: root
+    ansible_become: false
+
+  children:
+    kind_nodes:
+      hosts:
+        kind-control-plane:
+          ansible_host: kind-control-plane
+          node_role: control-plane
+        kind-worker:
+          ansible_host: kind-worker
+          node_role: worker
+        kind-worker2:
+          ansible_host: kind-worker2
+          node_role: worker
+
+    control_plane:
+      hosts:
+        kind-control-plane:
+
+
+    workers:
+      hosts:
+        kind-worker:
+        kind-worker2:
+
+

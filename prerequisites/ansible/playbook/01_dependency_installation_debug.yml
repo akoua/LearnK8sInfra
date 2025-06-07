@@ -1,0 +1,44 @@
+# ansible-playbook -i inventory/local.yml playbook/dependency_installation_debug.yml
+- name: Setup VM
+  hosts:
+  - control_plane
+  remote_user: root
+  tasks:
+
+  - name: Prerequisites
+    tags: repo
+    block:
+
+    - name: Install default packages
+      ansible.builtin.apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+        - gnupg
+        - gnupg2
+        - gnupg1
+
+    - name: add helm signing key
+      ansible.builtin.shell:
+        cmd: |
+          curl -fsSL https://baltocdn.com/helm/signing.asc | apt-key add -
+      timeout: 15
+
+    - name: add helm repo
+      ansible.builtin.shell:
+        cmd: |
+          apt-get install apt-transport-https --yes
+          echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+          apt-get -y update
+      timeout: 60
+
+    - name: Install packages
+      ansible.builtin.apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+        - helm
