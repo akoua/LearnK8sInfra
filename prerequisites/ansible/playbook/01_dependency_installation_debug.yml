@@ -20,25 +20,59 @@
         - gnupg2
         - gnupg1
 
-    - name: add helm signing key
+    - name: Install Helm via official script
       ansible.builtin.shell:
         cmd: |
-          curl -fsSL https://baltocdn.com/helm/signing.asc | apt-key add -
-      timeout: 15
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+      args:
+        creates: /usr/local/bin/helm
 
-    - name: add helm repo
+    - name: Verify Helm installation
+      ansible.builtin.command: helm version
+      register: helm_version
+      changed_when: false
+
+    - name: Install flux cli via official script
       ansible.builtin.shell:
         cmd: |
-          apt-get install apt-transport-https --yes
-          echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-          apt-get -y update
-      timeout: 60
+          curl -s https://fluxcd.io/install.sh | bash
+      args:
+        creates: /usr/local/bin/flux
 
-    - name: Install packages
-      ansible.builtin.apt:
-        name: "{{ packages }}"
-        state: present
-        update_cache: yes
-      vars:
-        packages:
-        - helm
+    - name: Verify flux installation
+      ansible.builtin.command: flux --version
+      register: flux_version
+      changed_when: false
+
+    - name: Install flux operator in the cluster
+      ansible.builtin.shell:
+        cmd: |
+          kubectl create namespace flux-system || true
+          helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --namespace flux-system  
+
+    - name: Copy flux operator github app private key
+      ansible.builtin.copy:
+        src: ~/.ssh/fluxoperatortest.2026-06-30.private-key.pem
+        dest: ~/.ssh/fluxoperatortest.private-key.pem
+        mode: '0600'
+
+    # https://fluxcd.io/blog/2025/04/flux-operator-github-app-bootstrap/
+    - name: Create a github app info secret in the cluster
+      ansible.builtin.shell:
+        cmd: |
+          flux create secret githubapp flux-system \
+          --app-id=4186041 \
+          --app-installation-id=143606838 \
+          --app-private-key=$HOME/.ssh/fluxoperatortest.private-key.pem
+
+
+    - name: Copy flux instance manifest to the control plane node
+      ansible.builtin.copy:
+        src: flux-instance.yml
+        dest: $HOME/flux-instance.yml        
+        mode: '0600'
+
+    - name: Apply flux instance manifest
+      ansible.builtin.shell:
+        cmd: |
+          kubectl apply -f $HOME/flux-instance.yml

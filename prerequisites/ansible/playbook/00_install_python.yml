@@ -1,0 +1,12 @@
+- name: Amorcer les nœuds Kind avec Python
+  hosts: kind_nodes
+  gather_facts: false
+  vars:
+    ansible_remote_tmp: /tmp/.ansible/tmp
+
+  tasks:
+    - name: Installer Python3 sur les nœuds
+      ansible.builtin.raw: apt update && apt install -y python3
+      become: true
+      register: python_install
+      changed_when: "'OK' in python_install.stdout or 'already' in python_install.stdout"

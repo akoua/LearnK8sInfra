@@ -13,10 +13,7 @@ all:
           node_role: control-plane
         kind-worker:
           ansible_host: kind-worker
-          node_role: worker
-        kind-worker2:
-          ansible_host: kind-worker2
-          node_role: worker
+          node_role: worker        
 
     control_plane:
       hosts:
@@ -26,6 +23,4 @@ all:
     workers:
       hosts:
         kind-worker:
-        kind-worker2:
-
 
