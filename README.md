@@ -9,6 +9,8 @@
 # Test ansible playbook
 You must be at the root path of DebugK8s
 
+```ansible-playbook -i prerequisites/ansible/inventory/local.yml prerequisites/ansible/playbook/00_install_python.yml```
+
 ```ansible-playbook -i prerequisites/ansible/inventory/local.yml prerequisites/ansible/playbook/01_dependency_installation_debug.yml```
 
 # cloud-provider-kind installation(MacOs) for loadbalancing

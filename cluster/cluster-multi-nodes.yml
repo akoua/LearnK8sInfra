@@ -8,6 +8,8 @@ networking:
 nodes:
 - role: control-plane
   image: kindest/node:v1.35.5 #(https://github.com/kubernetes-sigs/kind/releases/download/v0.20.0/kind-linux-amd64)
+  labels:
+    role: admin
   # extraMounts:
   # - hostPath: ./kind/data/secret/dockerhub-secret.json
   #   containerPath: /var/lib/kubelet/config.json
@@ -22,6 +24,8 @@ nodes:
   #   protocol: TCP
 - role: worker
   image: kindest/node:v1.35.5
+  labels:
+    role: worker
   # extraMounts:
   # - hostPath: ./kind/pvc
   #   containerPath: /data
